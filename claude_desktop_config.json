@@ -7,3 +7,12 @@
     }
   }
 }
+{
+  "mcpServers": {
+    "powershell": {
+      "command": "node",
+      "args": ["PATH_TO\\powershell-mcp\\src\\server.js"],
+      "env": {}
+    }
+  }
+}
