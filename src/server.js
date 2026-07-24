@@ -7,18 +7,19 @@ import { PowerShell } from 'node-powershell';
 import { registerPowerShellTools } from './tools/powershell-tools.js';
 import { registerSystemTools } from './tools/system-tools.js';
 import { registerFileTools } from './tools/file-tools.js';
+import { registerEmailTools } from './tools/email-tools.js';
 
 // CRITICAL: Use stderr for logging (stdout reserved for JSON-RPC)
 const log = (message) => {
   console.error(`[PowerShell MCP] ${message}`);
 };
 
-log('Starting PowerShell MCP Server v1.1.1...');
+log('Starting PowerShell MCP Server v1.2.0...');
 
 // Create an MCP server instance
 const server = new McpServer({
   name: 'powershell-mcp-server',
-  version: '1.1.1',
+  version: '1.2.0',
 });
 
 // Register all tool modules
@@ -31,6 +32,9 @@ registerSystemTools(server);
 log('Registering file system tools...');
 registerFileTools(server);
 
+log('Registering email tools...');
+registerEmailTools(server);
+
 // Set up transport and start listening
 const transport = new StdioServerTransport();
 await server.connect(transport);
@@ -38,8 +42,9 @@ await server.connect(transport);
 log('PowerShell MCP Server is running and ready for Claude Desktop!');
 log('Available tools:');
 log('  PowerShell: execute-powershell, execute-powershell-script, create-powershell-script');
-log('  System: get-system-info, get-process-list, get-service-status, check-disk-space');  
+log('  System: get-system-info, get-process-list, get-service-status, check-disk-space');
 log('  Files: list-directory, get-file-info, search-files');
+log('  Email: send-email');
 
 // Error handling
 process.on('uncaughtException', (error) => {

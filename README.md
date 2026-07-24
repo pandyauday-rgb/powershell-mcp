@@ -28,6 +28,29 @@ A comprehensive Model Context Protocol (MCP) server that enables Claude and othe
 - `get-file-info` - Detailed file and directory metadata  
 - `search-files` - Recursive file search with pattern matching
 
+### Email Tools (via [Resend](https://resend.com))
+- `send-email` - Send an email through Resend
+- `check-disk-space` and `get-service-status` also accept optional alert parameters (`alertBelowPercentFree`/`alertOnStopped` + `alertEmail`) to automatically email you when a drive runs low on space or a monitored service stops
+
+Email tools require a Resend API key. Add it to the `env` block of your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "powershell": {
+      "command": "node",
+      "args": ["D:/claude/claude-powershell-mcp/src/server.js"],
+      "env": {
+        "RESEND_API_KEY": "re_your_api_key",
+        "RESEND_FROM_EMAIL": "alerts@yourdomain.com"
+      }
+    }
+  }
+}
+```
+
+`RESEND_FROM_EMAIL` is used as the default sender and can be overridden per-call with the `from` parameter on `send-email`.
+
 ## 📋 **Prerequisites**
 
 - **Windows** 10/11 or Windows Server 2016+
@@ -80,6 +103,9 @@ Ask Claude:
 - *"List files in my Downloads folder"*
 - *"Search for all .txt files in C:\Users"*
 - *"Create a PowerShell script to backup my Documents folder"*
+- *"Email me a summary of my disk space usage"*
+- *"Check disk space and alert me at admin@example.com if any drive drops below 10% free"*
+- *"Check the status of the Spooler service and email me at admin@example.com if it's stopped"*
 
 ## 🔧 **Commands**
 
@@ -137,7 +163,8 @@ powershell-mcp/
 │   ├── tools/              # Tool implementations
 │   │   ├── powershell-tools.js
 │   │   ├── system-tools.js
-│   │   └── file-tools.js
+│   │   ├── file-tools.js
+│   │   └── email-tools.js
 │   └── utils/              # Utility modules
 │       └── system-utils.js
 ├── examples/               # Example PowerShell scripts

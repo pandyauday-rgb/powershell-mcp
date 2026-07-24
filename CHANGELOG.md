@@ -5,6 +5,19 @@ All notable changes to the PowerShell MCP Server project will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-07-24
+
+### ✨ Added - Resend Email Integration
+
+#### **New `send-email` Tool**
+- Added `src/tools/email-tools.js` with a `send-email` tool that sends emails through the [Resend](https://resend.com) API
+- Reads `RESEND_API_KEY` (required) and `RESEND_FROM_EMAIL` (default sender) from the environment, configured via the `env` block of `claude_desktop_config.json`
+- Supports plain-text or HTML bodies and single or multiple recipients
+
+#### **Threshold Alerts on Existing Monitoring Tools**
+- `check-disk-space` now accepts optional `alertBelowPercentFree` and `alertEmail` parameters to automatically email an alert when a drive's free space drops below the given threshold
+- `get-service-status` now accepts optional `alertOnStopped` and `alertEmail` parameters to automatically email an alert when a matched service is found stopped
+
 ## [1.1.1] - 2025-06-06
 
 ### 🐛 Critical Bug Fix Release
